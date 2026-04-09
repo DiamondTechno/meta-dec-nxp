@@ -1,0 +1,23 @@
+From 300ae2bc75698c3db993315803044a6c195a668a Mon Sep 17 00:00:00 2001
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 31 Mar 2026 21:18:42 -0500
+Subject: [PATCH] nxp-bluetooth: Add rfkill unblock before hciconfig up
+
+Move rfkill unblock bluetooth after the sleep delay to ensure the
+btnxpuart driver has finished initializing before unblocking.
+
+diff --git a/recipes-connectivity/nxp-bluetooth-systemd/files/nxp-bluetooth.service b/recipes-connectivity/nxp-bluetooth-systemd/files/nxp-bluetooth.service
+index 4aed0a7..41441f6 100644
+--- a/recipes-connectivity/nxp-bluetooth-systemd/files/nxp-bluetooth.service
++++ b/recipes-connectivity/nxp-bluetooth-systemd/files/nxp-bluetooth.service
+@@ -7,6 +7,7 @@ After=nxp-wifi.service
+ Type=oneshot
+ ExecStartPre=/usr/bin/env modprobe btnxpuart
+ ExecStart=/usr/bin/sleep 3
++ExecStartPost=/usr/sbin/rfkill unblock bluetooth
+ ExecStartPost=/usr/bin/hciconfig hci0 up
+ 
+ [Install]
+-- 
+2.53.0
+

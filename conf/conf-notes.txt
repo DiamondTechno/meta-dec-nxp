@@ -1,0 +1,23 @@
+
+### Shell environment set up for builds. ###
+
+Diamond Technologies iMX sample files are included in this directory as the default build configuration.
+The files are bblayers.conf.sample and local.conf.sample
+
+Using the command
+TEMPLATECONF=../sources/meta-dec-nxp/conf source sources/poky/oe-init-build-env <build-dir>
+
+A script needs to be invoked once to allow user to accept the EULA agreement.
+ ../sources/meta-dec-nxp/setup_dec.sh
+
+After these commands are issued use the bitbake command to build an image for the specified
+platform.
+
+You can now run 'bitbake <target>'
+
+examples:
+Common targets are:
+bitbake imx-image-full
+core-image-minimal
+
+
